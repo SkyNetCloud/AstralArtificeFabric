@@ -1,7 +1,7 @@
 package ca.skynetcloud.astralartificefabric.crafting.recipes;
 
 
-import ca.skynetcloud.astralartificefabric.util.handler.SpecialRecipeHandler;
+import ca.skynetcloud.astralartificefabric.util.handler.RecipeHandler;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
@@ -13,7 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-public class StarAltarRecipes implements Recipe<Container>, SpecialRecipeHandler {
+public class StarAltarRecipes implements Recipe<Container>, RecipeHandler {
     public static final int RECIPE_SIZE = 9;
     private final ItemStack result;
     private final ResourceLocation id;
@@ -29,7 +29,7 @@ public class StarAltarRecipes implements Recipe<Container>, SpecialRecipeHandler
         if(level.isClientSide) {
             return false;
         }
-        return !this.inputs.isEmpty() && this.inputs.get(0).test(container.getItem(0)) && SpecialRecipeHandler.super.matches(container);
+        return !this.inputs.isEmpty() && this.inputs.get(0).test(container.getItem(0)) && RecipeHandler.super.matches(container);
     }
 
     @Override

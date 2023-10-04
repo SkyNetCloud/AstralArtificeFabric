@@ -8,7 +8,7 @@ import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.level.Level;
 
 
-public interface SpecialRecipeHandler extends Recipe<Container>  {
+public interface RecipeHandler extends Recipe<Container>  {
 
     @Override
     default boolean matches(Container inv, Level level) {
