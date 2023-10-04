@@ -1,27 +1,27 @@
 package ca.skynetcloud.astralartificefabric.blockentities;
 
-import ca.skynetcloud.astralartificefabric.init.ModBlockEntities;
-import com.alex.cucumber.blockentity.BaseInventoryBlockEntity;
-import com.alex.cucumber.inventory.BaseItemStackHandler;
+import ca.skynetcloud.astralartificefabric.blockentities.bassclasses.BasicInventoryBlockEntity;
+import ca.skynetcloud.astralartificefabric.init.BlockEntitiesInit;
+import ca.skynetcloud.astralartificefabric.util.handler.BasicItemStackHandler;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class InfusionPedestalBlockEntity extends BaseInventoryBlockEntity {
-    private final BaseItemStackHandler inventory;
+public class StarPedestalBlockEntity extends BasicInventoryBlockEntity {
+    private final BasicItemStackHandler inventory;
 
-    public InfusionPedestalBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.STAR_PEDESTAL, pos, state);
+    public StarPedestalBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntitiesInit.STAR_PEDESTAL, pos, state);
         this.inventory = createInventoryHandler(this::markDirtyAndDispatch);
     }
 
     @Override
-    public BaseItemStackHandler getInventory() {
+    public BasicItemStackHandler getInventory() {
         return this.inventory;
     }
 
-    public static BaseItemStackHandler createInventoryHandler(Runnable onContentsChanged) {
-        return BaseItemStackHandler.create(1, onContentsChanged, builder -> {
+    public static BasicItemStackHandler createInventoryHandler(Runnable onContentsChanged) {
+        return BasicItemStackHandler.create(1, onContentsChanged, builder -> {
             builder.setDefaultSlotLimit(1);
         });
     }

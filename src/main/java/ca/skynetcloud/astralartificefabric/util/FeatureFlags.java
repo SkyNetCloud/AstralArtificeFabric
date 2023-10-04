@@ -1,2 +1,3 @@
-package ca.skynetcloud.astralartificefabric.util;public class FeatureFlags {
-}
+package ca.skynetcloud.astralartificefabric.util;
+
+public @interface FeatureFlags { }

@@ -1,10 +1,9 @@
-package ca.skynetcloud.astralartifice.items;
+package ca.skynetcloud.astralartificefabric.items;
 
-import ca.skynetcloud.astralartifice.registry.ObjectRegistry;
+
+import ca.skynetcloud.astralartificefabric.init.ItemInit;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.particles.ParticleOptions;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.InteractionHand;
@@ -12,10 +11,8 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.projectile.LargeFireball;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -42,7 +39,7 @@ public class BasicWand extends BasicItems {
         Random random = new Random();
 
 
-        if(player.isCrouching() && itemStack.is(new ItemStack(ObjectRegistry.FLAME_WAND.get()).getItem()) || itemStack.is(new ItemStack(ObjectRegistry.ROCK_WAND.get()).getItem()) || itemStack.is(new ItemStack(ObjectRegistry.ICE_WAND.get()).getItem())){
+        if(player.isCrouching() && itemStack.is(new ItemStack(ItemInit.FLAME_WAND.get()).getItem()) || itemStack.is(new ItemStack(ItemInit.ROCK_WAND.get()).getItem()) || itemStack.is(new ItemStack(ItemInit.ICE_WAND.get()).getItem())){
            if (block == Blocks.CLAY){
                    world.removeBlock(center, true);
                    world.setBlock(center, Blocks.AMETHYST_BLOCK.defaultBlockState(),1);
@@ -61,7 +58,7 @@ public class BasicWand extends BasicItems {
         Vec3 vec3 = player.getViewVector(1.0f);
         Random random = new Random();
 
-        if (itemStack.is(new ItemStack(ObjectRegistry.FLAME_WAND.get()).getItem())){
+        if (itemStack.is(new ItemStack(ItemInit.FLAME_WAND.get()).getItem())){
             if (!level.isClientSide) {
                 LargeFireball largeFireball = new LargeFireball(level, player, player.getX(), player.getEyeY(), player.getZ(), 1);
                 largeFireball.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3.0F, 0.0F);
@@ -74,7 +71,7 @@ public class BasicWand extends BasicItems {
             }
         }
 
-        if (itemStack.is(new ItemStack(ObjectRegistry.ICE_WAND.get()).getItem())){
+        if (itemStack.is(new ItemStack(ItemInit.ICE_WAND.get()).getItem())){
             if (!level.isClientSide) {
                 LargeFireball largeFireball = new LargeFireball(level, player, player.getX(), player.getEyeY(), player.getZ(), 1);
                 largeFireball.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3.0F, 0.0F);
@@ -87,7 +84,7 @@ public class BasicWand extends BasicItems {
             }
         }
 
-        if (itemStack.is(new ItemStack(ObjectRegistry.ROCK_WAND.get()).getItem())){
+        if (itemStack.is(new ItemStack(ItemInit.ROCK_WAND.get()).getItem())){
             if (!level.isClientSide) {
                 LargeFireball largeFireball = new LargeFireball(level, player, player.getX(), player.getEyeY(), player.getZ(), 1);
                 largeFireball.shootFromRotation(player, player.getXRot(), player.getYRot(), 0.0F, 3.0F, 0.0F);

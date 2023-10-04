@@ -1,5 +1,7 @@
 {
- "astralartifice.creative_tab": "Astral Artifice Tab",
+ "creativemodetab.minecraft.astralartifice": "Astral Artifice Tab",
  "item.astralartifice.star_tiller_tool": "Star Tiller Tool",
+ "block.astralartifice.star_altar": "Star Altar Core",
+ "block.astralartifice.star_pedestal": "Star Altar Pedestal",
  "item.astralartifice.star_gem": "Star Gem"
 }

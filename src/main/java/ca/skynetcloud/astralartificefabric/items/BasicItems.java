@@ -1,4 +1,4 @@
-package ca.skynetcloud.astralartifice.items;
+package ca.skynetcloud.astralartificefabric.items;
 
 import net.minecraft.world.item.Item;
 

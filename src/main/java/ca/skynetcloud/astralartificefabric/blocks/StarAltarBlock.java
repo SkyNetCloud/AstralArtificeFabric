@@ -2,11 +2,12 @@ package ca.skynetcloud.astralartificefabric.blocks;
 
 
 import blue.endless.jankson.annotation.Nullable;
-import ca.skynetcloud.astralartificefabric.blockentities.InfusionAltarBlockEntity;
-import ca.skynetcloud.astralartificefabric.init.ModBlockEntities;
-import com.alex.cucumber.block.BaseEntityBlock;
-import com.alex.cucumber.helper.StackHelper;
-import com.alex.cucumber.util.VoxelShapeBuilder;
+import ca.skynetcloud.astralartificefabric.blockentities.StarAltarBlockEntity;
+
+import ca.skynetcloud.astralartificefabric.blockentities.bassclasses.BasicEntityBlock;
+import ca.skynetcloud.astralartificefabric.init.BlockEntitiesInit;
+
+import ca.skynetcloud.astralartificefabric.util.helper.BasicStackHelper;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.sounds.SoundEvents;
@@ -26,41 +27,69 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 
 import java.util.List;
 
-public class InfusionAltarBlock extends BaseEntityBlock {
 
-    public static final VoxelShape ALTAR_SHAPE = VoxelShapeBuilder.builder()
-            .cuboid(0, 0, 0, 16, 8, 16).cuboid(3, 13, 3, 13, 14, 13)
-            .cuboid(6, 10, 6, 10, 11, 10).cuboid(5, 11, 5, 11, 13, 11)
-            .cuboid(2, 13.5, 4, 3, 14.5, 12).cuboid(13, 13.5, 4, 14, 14.5, 12)
-            .cuboid(4, 13.5, 2, 12, 14.5, 3).cuboid(4, 13.5, 13, 12, 14.5, 14)
-            .cuboid(0.5, 8, 4, 4, 10, 12).cuboid(2, 8, 0.5, 14, 10, 4)
-            .cuboid(12, 8, 4, 15.5, 10, 12).cuboid(2, 8, 12, 14, 10, 15.5)
-            .cuboid(14, 8, 2, 15.5, 10, 4).cuboid(14, 8, 12, 15.5, 10, 14)
-            .cuboid(0.5, 8, 12, 2, 10, 14).cuboid(0.5, 8, 2, 2, 10, 4)
-            .cuboid(0.25, 8, 14, 2, 9, 15.75).cuboid(14, 8, 14, 15.75, 9, 15.75)
-            .cuboid(14, 8, 0.25, 15.75, 9, 2).cuboid(0.25, 8, 0.25, 2, 9, 2)
-            .cuboid(5, 8, 5, 11, 10, 11).build();
+public class StarAltarBlock extends BasicEntityBlock {
+    public VoxelShape makeShape(){
+        VoxelShape shape = Shapes.empty();
+        shape = Shapes.join(shape, Shapes.box(0, 0, 0, 1, 0.3125, 1), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.6875, 1.0625, 0.125, 0.875, 1.125, 0.1875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.8125, 1.0625, 0.6875, 0.875, 1.125, 0.875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.125, 1.0625, 0.8125, 0.3125, 1.125, 0.875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.125, 1.0625, 0.125, 0.3125, 1.125, 0.1875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.8125, 1.0625, 0.1875, 0.875, 1.125, 0.3125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.125, 1.0625, 0.1875, 0.1875, 1.125, 0.3125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.125, 1.0625, 0.6875, 0.1875, 1.125, 0.8125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.6875, 1.0625, 0.8125, 0.8125, 1.125, 0.875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.8125, 0.9375, 0.3125, 1, 1, 0.6875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.3125, 0.9375, 0, 0.6875, 1, 0.1875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0, 0.9375, 0.3125, 0.1875, 1, 0.6875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.3125, 0.9375, 0.8125, 0.6875, 1, 1), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.0625, 1, 0.1875, 0.1875, 1.0625, 0.4375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.0625, 1, 0.5625, 0.1875, 1.0625, 0.8125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.5625, 1, 0.8125, 0.8125, 1.0625, 0.9375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.8125, 1, 0.5625, 0.9375, 1.0625, 0.8125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.8125, 1, 0.1875, 0.9375, 1.0625, 0.4375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.5625, 1, 0.0625, 0.8125, 1.0625, 0.1875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.1875, 1, 0.0625, 0.4375, 1.0625, 0.1875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.1875, 1, 0.8125, 0.4375, 1.0625, 0.9375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.125, 0.3125, 0.125, 0.875, 0.9375, 0.875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.1875, 0.9375, 0.1875, 0.8125, 1.0625, 0.8125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.3125, 1.0625, 0.3125, 0.6875, 1.1875, 0.6875), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.4375, 0.3125, 0.875, 0.5625, 0.9375, 0.9375), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.4375, 0.3125, 0.0625, 0.5625, 0.9375, 0.125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.0625, 0.3125, 0.4375, 0.125, 0.9375, 0.5625), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.875, 0.3125, 0.4375, 0.9375, 0.9375, 0.5625), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.1875, 1.0625, 0.1875, 0.25, 1.246875, 0.25), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.75, 1.0625, 0.1875, 0.8125, 1.246875, 0.25), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.75, 1.0625, 0.75, 0.8125, 1.246875, 0.8125), BooleanOp.OR);
+        shape = Shapes.join(shape, Shapes.box(0.1875, 1.0625, 0.75, 0.25, 1.246875, 0.8125), BooleanOp.OR);
 
-    public InfusionAltarBlock() {
+        return shape;
+    }
+
+
+    public StarAltarBlock() {
         super(SoundType.STONE, 10.0F, 12.0F, true);
     }
 
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new InfusionAltarBlockEntity(pos, state);
+        return new StarAltarBlockEntity(pos, state);
     }
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult rayTraceResult) {
         var block = level.getBlockEntity(pos);
 
-        if (block instanceof InfusionAltarBlockEntity altar) {
+        if (block instanceof StarAltarBlockEntity altar) {
             var inventory = altar.getInventory();
             var input = inventory.getItem(0);
             var output = inventory.getItem(1);
@@ -74,8 +103,8 @@ public class InfusionAltarBlock extends BaseEntityBlock {
             } else {
                 var held = player.getItemInHand(hand);
                 if (input.isEmpty() && !held.isEmpty()) {
-                    inventory.setStackInSlot(0, StackHelper.withSize(held, 1, false));
-                    player.setItemInHand(hand, StackHelper.shrink(held, 1, false));
+                    inventory.setStackInSlot(0, BasicStackHelper.withSize(held, 1, false));
+                    player.setItemInHand(hand, BasicStackHelper.shrink(held, 1, false));
                     level.playSound(null, pos, SoundEvents.ITEM_PICKUP, SoundSource.BLOCKS, 1.0F, 1.0F);
                 } else if (!input.isEmpty()) {
 //                    if (held.getItem() instanceof WandItem)
@@ -98,7 +127,7 @@ public class InfusionAltarBlock extends BaseEntityBlock {
         if (state.getBlock() != newState.getBlock()) {
             var block = world.getBlockEntity(pos);
 
-            if (block instanceof InfusionAltarBlockEntity altar) {
+            if (block instanceof StarAltarBlockEntity altar) {
                 Containers.dropContents(world, pos, altar.getInventory().getStacks());
             }
         }
@@ -106,9 +135,20 @@ public class InfusionAltarBlock extends BaseEntityBlock {
         super.onRemove(state, world, pos, newState, isMoving);
     }
 
+
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos post, CollisionContext context) {
-        return ALTAR_SHAPE;
+        return makeShape();
+    }
+
+    @Override
+    public VoxelShape getCollisionShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
+        return makeShape();
+    }
+
+    @Override
+    public VoxelShape getInteractionShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
+        return makeShape();
     }
 
     @Override
@@ -118,6 +158,6 @@ public class InfusionAltarBlock extends BaseEntityBlock {
 
     @Override
     protected <T extends BlockEntity> BlockEntityTicker<T> getServerTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        return createTicker(type, ModBlockEntities.STAR_ALTAR, InfusionAltarBlockEntity::tick);
+        return createTicker(type, BlockEntitiesInit.STAR_ALTAR, StarAltarBlockEntity::tick);
     }
 }

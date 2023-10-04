@@ -3,31 +3,10 @@
   "ingredients": [
     {
       "item": "astralartifice:star_gem"
-    },
-    {
-      "item": "astralartifice:star_gem"
-    },
-    {
-      "item": "astralartifice:star_gem"
-    },
-    {
-      "item": "astralartifice:star_gem"
-    },
-    {
-      "item": "astralartifice:sulfur"
-    },
-    {
-      "item": "astralartifice:star_gem"
-    },
-    {
-      "item": "astralartifice:star_gem"
-    },
-    {
-      "item": "astralartifice:star_gem"
     }
   ],
-  "input": {
-    "item": "minecraft:iron_hoe"
+  "inputs": {
+    "item": "minecraft:iron"
   },
   "result": {
     "item": "astralartifice:star_tiller_tool"

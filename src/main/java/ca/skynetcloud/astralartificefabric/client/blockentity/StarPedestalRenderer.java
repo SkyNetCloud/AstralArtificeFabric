@@ -11,8 +11,8 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
 
-public class InfusionPedestalRenderer implements BlockEntityRenderer<StarPedestalBlockEntity> {
-    public InfusionPedestalRenderer(BlockEntityRendererProvider.Context context) { }
+public class StarPedestalRenderer implements BlockEntityRenderer<StarPedestalBlockEntity> {
+    public StarPedestalRenderer(BlockEntityRendererProvider.Context context) { }
 
     @Override
     public void render(StarPedestalBlockEntity entity, float v, PoseStack matrix, MultiBufferSource buffer, int i, int i1) {

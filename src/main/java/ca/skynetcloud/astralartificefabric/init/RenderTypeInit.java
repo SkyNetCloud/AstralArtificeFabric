@@ -9,7 +9,7 @@ import net.minecraft.client.renderer.RenderType;
 import org.lwjgl.opengl.GL14;
 
 
-public class ObjRenderType extends RenderType {
+public class RenderTypeInit extends RenderType {
     private static final RenderStateShard.TransparencyStateShard GHOST_TRANSPARENCY = new TransparencyStateShard("ghost_transparency",
             () -> {
                 RenderSystem.enableBlend();
@@ -34,7 +34,7 @@ public class ObjRenderType extends RenderType {
     );
 
     // unused, just needed to extend RenderType for protected constants
-    private ObjRenderType(String p_173178_, VertexFormat p_173179_, VertexFormat.Mode p_173180_, int p_173181_, boolean p_173182_, boolean p_173183_, Runnable p_173184_, Runnable p_173185_) {
+    private RenderTypeInit(String p_173178_, VertexFormat p_173179_, VertexFormat.Mode p_173180_, int p_173181_, boolean p_173182_, boolean p_173183_, Runnable p_173184_, Runnable p_173185_) {
         super(p_173178_, p_173179_, p_173180_, p_173181_, p_173182_, p_173183_, p_173184_, p_173185_);
     }
 }

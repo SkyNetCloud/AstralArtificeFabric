@@ -1,9 +1,7 @@
-package ca.skynetcloud.astralartificefabric.crafting.recipe;
+package ca.skynetcloud.astralartificefabric.crafting.recipes;
 
 
-import ca.skynetcloud.astralartificefabric.util.handler.BasicItemStackHandler;
 import ca.skynetcloud.astralartificefabric.util.handler.SpecialRecipeHandler;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
@@ -15,13 +13,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 
-public class StarAltarRecipe implements Recipe<Container>, SpecialRecipeHandler {
+public class StarAltarRecipes implements Recipe<Container>, SpecialRecipeHandler {
     public static final int RECIPE_SIZE = 9;
     private final ItemStack result;
     private final ResourceLocation id;
     private final NonNullList<Ingredient> inputs;
 
-    public StarAltarRecipe(ResourceLocation id, ItemStack result, NonNullList<Ingredient> inputs) {
+    public StarAltarRecipes(ResourceLocation id, ItemStack result, NonNullList<Ingredient> inputs) {
         this.id = id;
         this.inputs = inputs;
         this.result = result;
@@ -64,18 +62,18 @@ public class StarAltarRecipe implements Recipe<Container>, SpecialRecipeHandler 
         return Type.INSTANCE;
     }
 
-    public static class Type implements RecipeType<StarAltarRecipe> {
+    public static class Type implements RecipeType<StarAltarRecipes> {
         private Type() {
         }
         public static final Type INSTANCE = new Type();
         public static final String ID = "star_altar";
     }
-    public static class Serializer implements RecipeSerializer<StarAltarRecipe> {
+    public static class Serializer implements RecipeSerializer<StarAltarRecipes> {
         public static final Serializer Instance = new Serializer();
         public static final String ID = "star_altar";
 
         @Override
-        public StarAltarRecipe fromJson(ResourceLocation id, JsonObject json) {
+        public StarAltarRecipes fromJson(ResourceLocation id, JsonObject json) {
             var inputs = NonNullList.withSize(RECIPE_SIZE, Ingredient.EMPTY);
             var input = GsonHelper.getAsJsonObject(json, "input");
 
@@ -88,11 +86,11 @@ public class StarAltarRecipe implements Recipe<Container>, SpecialRecipeHandler 
             }
 
             var result = ShapedRecipe.itemStackFromJson(json.getAsJsonObject("result"));
-            return new StarAltarRecipe(id, result, inputs);
+            return new StarAltarRecipes(id, result, inputs);
         }
 
         @Override
-        public StarAltarRecipe fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+        public StarAltarRecipes fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
             int size = buffer.readVarInt();
             var inputs = NonNullList.withSize(size, Ingredient.EMPTY);
 
@@ -101,12 +99,12 @@ public class StarAltarRecipe implements Recipe<Container>, SpecialRecipeHandler 
             }
 
             var result = buffer.readItem();
-            return new StarAltarRecipe(id,result,inputs);
+            return new StarAltarRecipes(id,result,inputs);
 
         }
 
         @Override
-        public void toNetwork(FriendlyByteBuf buffer, StarAltarRecipe recipe) {
+        public void toNetwork(FriendlyByteBuf buffer, StarAltarRecipes recipe) {
             buffer.writeVarInt(recipe.inputs.size());
 
             for (var ingredient : recipe.inputs) {

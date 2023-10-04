@@ -1,9 +1,9 @@
 package ca.skynetcloud.astralartificefabric.client.blockentity;
 
 import ca.skynetcloud.astralartificefabric.blockentities.StarAltarBlockEntity;
-import ca.skynetcloud.astralartificefabric.init.ModBlocks;
-import com.alex.cucumber.client.ModRenderTypes;
+import ca.skynetcloud.astralartificefabric.init.BlocksInit;
 
+import ca.skynetcloud.astralartificefabric.init.RenderTypeInit;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
@@ -13,8 +13,8 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemDisplayContext;
 
-public class InfusionAltarRenderer implements BlockEntityRenderer<StarAltarBlockEntity> {
-    public InfusionAltarRenderer(BlockEntityRendererProvider.Context context) { }
+public class StarAltarRenderer implements BlockEntityRenderer<StarAltarBlockEntity> {
+    public StarAltarRenderer(BlockEntityRendererProvider.Context context) { }
 
     @Override
     public void render(StarAltarBlockEntity entity, float v, PoseStack matrix, MultiBufferSource buffer, int i, int i1) {
@@ -28,7 +28,7 @@ public class InfusionAltarRenderer implements BlockEntityRenderer<StarAltarBlock
 
         if (!stack.isEmpty()) {
             matrix.pushPose();
-            matrix.translate(0.5D, 1.1D, 0.5D);
+            matrix.translate(0.5D, 1.4D, 0.5D);
             float scale = stack.getItem() instanceof BlockItem ? 0.95F : 0.75F;
             matrix.scale(scale, scale, scale);
             double tick = System.currentTimeMillis() / 800.0D;
@@ -39,7 +39,7 @@ public class InfusionAltarRenderer implements BlockEntityRenderer<StarAltarBlock
         }
 
         var pos = entity.getBlockPos();
-        var builder = buffer.getBuffer(ModRenderTypes.GHOST);
+        var builder = buffer.getBuffer(RenderTypeInit.GHOST);
 
         matrix.pushPose();
         matrix.translate(-pos.getX(), -pos.getY(), -pos.getZ());
@@ -48,7 +48,7 @@ public class InfusionAltarRenderer implements BlockEntityRenderer<StarAltarBlock
             if (level.isEmptyBlock(aoePos)) {
                 matrix.pushPose();
                 matrix.translate(aoePos.getX(), aoePos.getY(), aoePos.getZ());
-                minecraft.getBlockRenderer().renderBatched(ModBlocks.STAR_PEDESTAL.defaultBlockState(), aoePos, level, matrix, builder, false, level.getRandom());
+                minecraft.getBlockRenderer().renderBatched(BlocksInit.STAR_PEDESTAL.defaultBlockState(), aoePos, level, matrix, builder, false, level.getRandom());
                 matrix.popPose();
             }
         });

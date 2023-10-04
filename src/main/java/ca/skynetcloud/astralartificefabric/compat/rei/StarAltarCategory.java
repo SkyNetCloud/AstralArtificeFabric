@@ -1,8 +1,8 @@
 package ca.skynetcloud.astralartificefabric.compat.rei;
 
-import ca.skynetcloud.astralartificefabric.crafting.recipe.StarAltarRecipe;
-import ca.skynetcloud.astralartificefabric.init.ModBlocks;
-import com.alex.cucumber.util.Localizable;
+import ca.skynetcloud.astralartificefabric.crafting.recipes.StarAltarRecipes;
+import ca.skynetcloud.astralartificefabric.init.BlocksInit;
+import ca.skynetcloud.astralartificefabric.util.Localizable;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -26,23 +26,23 @@ import java.util.List;
 import static ca.skynetcloud.astralartificefabric.AstralArtificeFabric.MOD_ID;
 
 
-public class InfusionCategory implements DisplayCategory<InfusionCategory.RecipeDisplay> {
+public class StarAltarCategory implements DisplayCategory<StarAltarCategory.RecipeDisplay> {
 
-    public static CategoryIdentifier<RecipeDisplay> STAR = CategoryIdentifier.of(new ResourceLocation(MOD_ID, "infusion"));
+    public static CategoryIdentifier<RecipeDisplay> STAR_ALTAR = CategoryIdentifier.of(new ResourceLocation(MOD_ID, "star_altar"));
 
     @Override
     public CategoryIdentifier<RecipeDisplay> getCategoryIdentifier() {
-        return STAR;
+        return STAR_ALTAR;
     }
 
     @Override
     public Component getTitle() {
-        return Localizable.of("rei.category.mysticalagriculture.infusion").build();
+        return Localizable.of("rei.category.astralartifice.star_altar").build();
     }
 
     @Override
     public Renderer getIcon() {
-        return EntryStacks.of(ModBlocks.STAR_ALTAR);
+        return EntryStacks.of(BlocksInit.STAR_ALTAR);
     }
 
     @Override
@@ -115,7 +115,7 @@ public class InfusionCategory implements DisplayCategory<InfusionCategory.Recipe
         return 81 + 8;
     }
 
-    record RecipeDisplay(StarAltarRecipe recipe) implements Display {
+    record RecipeDisplay(StarAltarRecipes recipe) implements Display {
 
         @Override
         public List<EntryIngredient> getInputEntries() {
@@ -129,7 +129,7 @@ public class InfusionCategory implements DisplayCategory<InfusionCategory.Recipe
 
         @Override
         public CategoryIdentifier<?> getCategoryIdentifier() {
-            return STAR;
+            return STAR_ALTAR;
         }
     }
 

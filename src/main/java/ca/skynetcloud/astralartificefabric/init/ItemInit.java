@@ -13,7 +13,7 @@ import net.minecraft.world.item.Tiers;
 
 import static ca.skynetcloud.astralartificefabric.AstralArtificeFabric.MOD_ID;
 
-public class ModItems {
+public class ItemInit {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
     public static final RegistrySupplier<Item> FLAME_WAND;

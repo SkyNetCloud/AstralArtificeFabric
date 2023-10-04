@@ -7,21 +7,91 @@ version = project.mod_version
 group = project.maven_group
 
 repositories {
+    mavenCentral()
+    mavenLocal()
+
     // Add repositories to retrieve artifacts from in here.
     // You should only use this when depending on other mods because
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+    maven {
+        name = "Shedaniel"
+        url = "https://maven.shedaniel.me/"
+    }
+
+    maven {
+        name = "Jitpack"
+        url = 'https://jitpack.io'
+    }
+
+    maven {
+        name = "Curse"
+        url = "https://www.cursemaven.com"
+    }
+
+    maven {
+        name = "BlameJared Maven'"
+        url = "https://maven.blamejared.com"
+    }
+
+    maven {
+        name = "Fuzs Mod Resources"
+        url = "https://raw.githubusercontent.com/Fuzss/modresources/main/maven/"
+    }
+
+    maven { url = "https://mvn.devos.one/snapshots/" }
+
+    maven {
+        name = "vram"
+        url = "https://maven.vram.io/"
+    }
 }
 
 dependencies {
     // To change the versions see the gradle.properties file
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
+    mappings loom.officialMojangMappings()
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
         // Fabric API. This is technically optional, but you probably want it anyway.
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+
+    if (project.runtime_itemlist_mod == "jei") {
+        modImplementation("mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}") {
+            exclude group: "mezz.jei"
+        }
+    } else {
+        modCompileOnly("mezz.jei:jei-${project.minecraft_version}-fabric:${project.jei_version}") {
+            exclude group: "mezz.jei"
+        }
+    }
+
+    if (project.runtime_itemlist_mod == "rei") {
+        // Manually override architectury TODO remove once REI's dependency is fixed
+        modRuntimeOnly("dev.architectury:architectury-fabric:8.1.87")
+        modImplementation("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}") {
+            exclude(group: "net.fabricmc.fabric-api")
+        }
+    } else {
+        modCompileOnly("me.shedaniel:RoughlyEnoughItems-fabric:${project.rei_version}") {
+            exclude group: "net.fabricmc.fabric-api"
+        }
+    }
+
+    if (!(project.runtime_itemlist_mod in ["jei", "rei"])) {
+        throw new GradleException("Invalid runtime_itemlist_mod value: " + project.runtime_itemlist_mod)
+    }
+
+    modImplementation("curse.maven:jade-324717:${project.jade_version}")
+
+    //modImplementation("curse.maven:${project.cucumber_version}")
+
+    implementation "com.electronwill.night-config:core:${project.nightconfig_version}"
+    implementation "com.electronwill.night-config:toml:${project.nightconfig_version}"
+    modApi "fuzs.forgeconfigapiport:forgeconfigapiport-fabric:${project.forgeconfigapiport_version}"
+
+    modImplementation(include("io.github.fabricators_of_create.Porting-Lib:Porting-Lib:${project.portinglib_version}"))
     }
 
 processResources {

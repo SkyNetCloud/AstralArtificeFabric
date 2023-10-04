@@ -15,7 +15,7 @@ import java.util.Map;
 import static ca.skynetcloud.astralartificefabric.AstralArtificeFabric.MOD_ID;
 
 
-public class ModBlocks {
+public class BlocksInit {
     public static final Map<ResourceLocation, Block> BLOCKS = new LinkedHashMap<>();
     public static final Map<ResourceLocation, BlockItem> BLOCK_ITEMS = new LinkedHashMap<>();
 

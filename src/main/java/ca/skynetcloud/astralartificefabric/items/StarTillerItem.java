@@ -1,8 +1,9 @@
-package ca.skynetcloud.astralartifice.items;
+package ca.skynetcloud.astralartificefabric.items;
 
 
-import ca.skynetcloud.astralartifice.AstralArtifice;
-import ca.skynetcloud.astralartifice.util.AstralArtificeConfig;
+
+import ca.skynetcloud.astralartificefabric.AstralArtificeFabric;
+import ca.skynetcloud.astralartificefabric.config.ModConfigs;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
@@ -54,7 +55,7 @@ public class StarTillerItem extends HoeItem {
         BlockPos center = context.getClickedPos();
         Direction face = context.getHorizontalDirection();
         BlockPos blockpos = null;
-        for (int dist = 0; dist < AstralArtificeConfig.getTillingRange(); dist++) {
+        for (int dist = 0; dist < ModConfigs.getTillingRange(); dist++) {
             blockpos = center.relative(face, dist);
             if (world.isEmptyBlock(blockpos)) {
                 //air here, went off an edge. try to go down 1
@@ -113,12 +114,12 @@ public class StarTillerItem extends HoeItem {
 
     private void moisturize(Level world, BlockPos pos, BlockState blockstate) {
         try {
-            if (AstralArtificeConfig.getMoisture() > 0) {
-                world.setBlock(pos, Blocks.FARMLAND.defaultBlockState().setValue(FarmBlock.MOISTURE, AstralArtificeConfig.getMoisture()), 3);
+            if (ModConfigs.getMoisture() > 0) {
+                world.setBlock(pos, Blocks.FARMLAND.defaultBlockState().setValue(FarmBlock.MOISTURE, ModConfigs.getMoisture()), 3);
             }
         }
         catch (Exception e) {
-            AstralArtifice.LOGGER.error("Star_Tiller Moisturize error", e);
+            AstralArtificeFabric.LOGGER.error("Star_Tiller Moisturize error", e);
         }
     }
 }

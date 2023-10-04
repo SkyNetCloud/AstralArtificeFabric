@@ -1,12 +1,11 @@
 package ca.skynetcloud.astralartificefabric.blockentities;
 
-import ca.skynetcloud.astralartificefabric.crafting.recipe.InfusionRecipe;
-import ca.skynetcloud.astralartificefabric.init.ModBlockEntities;
-import ca.skynetcloud.astralartificefabric.init.ModRecipeTypes;
+import ca.skynetcloud.astralartificefabric.blockentities.bassclasses.BasicInventoryBlockEntity;
+import ca.skynetcloud.astralartificefabric.crafting.recipes.StarAltarRecipes;
+import ca.skynetcloud.astralartificefabric.init.BlockEntitiesInit;
 import ca.skynetcloud.astralartificefabric.util.IActivatable;
-import com.alex.cucumber.blockentity.BaseInventoryBlockEntity;
-import com.alex.cucumber.inventory.BaseItemStackHandler;
-import com.alex.cucumber.util.MultiblockPositions;
+import ca.skynetcloud.astralartificefabric.util.MultiblockPositions;
+import ca.skynetcloud.astralartificefabric.util.handler.BasicItemStackHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ItemParticleOption;
 import net.minecraft.core.particles.ParticleOptions;
@@ -20,24 +19,24 @@ import net.minecraft.world.level.block.state.BlockState;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InfusionAltarBlockEntity extends BaseInventoryBlockEntity implements IActivatable {
-    private final BaseItemStackHandler inventory;
-    private final BaseItemStackHandler recipeInventory;
+public class StarAltarBlockEntity extends BasicInventoryBlockEntity implements IActivatable {
+    private final BasicItemStackHandler inventory;
+    private final BasicItemStackHandler recipeInventory;
     private final MultiblockPositions pedestalLocations = new MultiblockPositions.Builder()
             .pos(3, 0, 0).pos(0, 0, 3).pos(-3, 0, 0).pos(0, 0, -3)
             .pos(2, 0, 2).pos(2, 0, -2).pos(-2, 0, 2).pos(-2, 0, -2).build();
-    private InfusionRecipe recipe;
+    private StarAltarRecipes recipe;
     private int progress;
     private boolean active;
 
-    public InfusionAltarBlockEntity(BlockPos pos, BlockState state) {
-        super(ModBlockEntities.STAR_ALTAR, pos, state);
+    public StarAltarBlockEntity(BlockPos pos, BlockState state) {
+        super(BlockEntitiesInit.STAR_ALTAR, pos, state);
         this.inventory = createInventoryHandler(this::markDirtyAndDispatch);
-        this.recipeInventory = BaseItemStackHandler.create(9);
+        this.recipeInventory = BasicItemStackHandler.create(9);
     }
 
     @Override
-    public BaseItemStackHandler getInventory() {
+    public BasicItemStackHandler getInventory() {
         return this.inventory;
     }
 
@@ -72,7 +71,7 @@ public class InfusionAltarBlockEntity extends BaseInventoryBlockEntity implement
         this.active = true;
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, InfusionAltarBlockEntity block) {
+    public static void tick(Level level, BlockPos pos, BlockState state, StarAltarBlockEntity block) {
         var input = block.inventory.getItem(0);
 
         if (input.isEmpty()) {
@@ -119,8 +118,8 @@ public class InfusionAltarBlockEntity extends BaseInventoryBlockEntity implement
         }
     }
 
-    public static BaseItemStackHandler createInventoryHandler(Runnable onContentsChanged) {
-        return BaseItemStackHandler.create(2, onContentsChanged, builder -> {
+    public static BasicItemStackHandler createInventoryHandler(Runnable onContentsChanged) {
+        return BasicItemStackHandler.create(2, onContentsChanged, builder -> {
             builder.setDefaultSlotLimit(1);
             builder.setCanInsert((slot, stack) -> builder.getItem(1).isEmpty());
             builder.setOutputSlots(1);
@@ -136,25 +135,26 @@ public class InfusionAltarBlockEntity extends BaseInventoryBlockEntity implement
         this.active = false;
     }
 
-    public InfusionRecipe getActiveRecipe() {
+    public StarAltarRecipes getActiveRecipe() {
         if (this.level == null)
             return null;
 
         this.updateRecipeInventory(this.getPedestals());
 
-        if (this.recipe == null || !this.recipe.matches(this.recipeInventory)) {
+        //if (this.recipe == null || !this.recipe.matches(this.recipeInventory)) {
+
             var recipe = this.level.getRecipeManager()
-                    .getRecipeFor(ModRecipeTypes.STAR, this.recipeInventory, this.level)
+                    .getRecipeFor(StarAltarRecipes.Type.INSTANCE, this.recipeInventory, this.level)
                     .orElse(null);
 
-            this.recipe = recipe instanceof InfusionRecipe ? (InfusionRecipe) recipe : null;
-        }
+            this.recipe = recipe instanceof StarAltarRecipes ? recipe : null;
+
 
         return this.recipe;
     }
 
-    private void updateRecipeInventory(List < InfusionPedestalBlockEntity > pedestals) {
-        this.recipeInventory.setSize(InfusionRecipe.RECIPE_SIZE);
+    private void updateRecipeInventory(List <StarPedestalBlockEntity> pedestals) {
+        this.recipeInventory.setSize(StarAltarRecipes.RECIPE_SIZE);
         this.recipeInventory.setItem(0, this.inventory.getItem(0));
 
         for (int i = 0; i < pedestals.size(); i++) {
@@ -164,15 +164,15 @@ public class InfusionAltarBlockEntity extends BaseInventoryBlockEntity implement
         }
     }
 
-    private List<InfusionPedestalBlockEntity> getPedestals() {
+    private List<StarPedestalBlockEntity> getPedestals() {
         if (this.getLevel() == null)
             return new ArrayList<>();
 
-        List<InfusionPedestalBlockEntity> pedestals = new ArrayList<>();
+        List<StarPedestalBlockEntity> pedestals = new ArrayList<>();
 
         this.getPedestalPositions().forEach(pos -> {
             var block = this.getLevel().getBlockEntity(pos);
-            if (block instanceof InfusionPedestalBlockEntity pedestal)
+            if (block instanceof StarPedestalBlockEntity pedestal)
                 pedestals.add(pedestal);
         });
 
