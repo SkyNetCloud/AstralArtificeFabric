@@ -2,7 +2,8 @@ package ca.skynetcloud.astralartificefabric.config;
 
 
 import net.minecraftforge.common.ForgeConfigSpec;
-import net.minecraftforge.common.ForgeConfigSpec.*;
+import net.minecraftforge.common.ForgeConfigSpec.Builder;
+import net.minecraftforge.common.ForgeConfigSpec.IntValue;
 
 public class ModConfigs {
     public static final Builder BUILDER = new Builder();
@@ -22,7 +23,6 @@ public class ModConfigs {
         TILLING_RANGE = BUILDER.comment("\r\nRange of cultivator item").defineInRange("cultivator.range", 9, 2, 32);
         MOISTURE = BUILDER.comment("\r\nMoisture level set by cultivator").defineInRange("cultivator.moisture", 7, 0, 7);
 
-        BUILDER.pop();
         CONFIG = BUILDER.build();
     }
     public static int getTillingRange() {

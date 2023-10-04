@@ -1,16 +1,10 @@
 package ca.skynetcloud.astralartificefabric.util.handler;
 
 
-
-
-
 import net.minecraft.core.Direction;
 import net.minecraft.core.NonNullList;
-import net.minecraft.world.Container;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
 import org.apache.commons.lang3.ArrayUtils;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
@@ -38,31 +32,12 @@ public class BasicItemStackHandler extends BasicForgeItemStackHandler {
         }
 
     }
-
     public ItemStack insertItem(int slot, ItemStack stack) {
         return this.insertItem(slot, stack, false);
     }
 
     public ItemStack insertItem(int slot, ItemStack stack, boolean container) {
         return !container && this.outputSlots != null && ArrayUtils.contains(this.outputSlots, slot) ? stack : super.insertItem(slot, stack);
-    }
-
-    public ItemStack extractItem(int slot, int amount) {
-        return this.extractItem(slot, amount, false);
-    }
-
-    public ItemStack extractItem(int slot, int amount, boolean container) {
-        if (!container) {
-            if (this.canExtract != null && !(Boolean)this.canExtract.apply(slot)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (this.outputSlots != null && !ArrayUtils.contains(this.outputSlots, slot)) {
-                return ItemStack.EMPTY;
-            }
-        }
-
-        return super.removeItem(slot, amount);
     }
 
     public int getSlotLimit(int slot) {
@@ -74,7 +49,7 @@ public class BasicItemStackHandler extends BasicForgeItemStackHandler {
     }
 
     public boolean canPlaceItem(int slot, ItemStack stack) {
-        return this.canInsert == null || (Boolean)this.canInsert.apply(slot, stack);
+        return this.canInsert == null || this.canInsert.apply(slot, stack);
     }
 
     public void clearContent() {
@@ -88,13 +63,8 @@ public class BasicItemStackHandler extends BasicForgeItemStackHandler {
         }
 
     }
-
     public NonNullList<ItemStack> getStacks() {
         return this.stacks;
-    }
-
-    public int[] getOutputSlots() {
-        return this.outputSlots;
     }
 
     public void setDefaultSlotLimit(int size) {
@@ -105,31 +75,8 @@ public class BasicItemStackHandler extends BasicForgeItemStackHandler {
         this.canInsert = validator;
     }
 
-    public void setCanExtract(Function<Integer, Boolean> canExtract) {
-        this.canExtract = canExtract;
-    }
-
     public void setOutputSlots(int... slots) {
         this.outputSlots = slots;
-    }
-
-    public Container toInventory() {
-        return new SimpleContainer((ItemStack[])this.stacks.toArray(new ItemStack[0]));
-    }
-
-    public BasicItemStackHandler copy() {
-        BasicItemStackHandler newInventory = new BasicItemStackHandler(this.getContainerSize(), this.onContentsChanged);
-        newInventory.setDefaultSlotLimit(this.maxStackSize);
-        newInventory.setCanInsert(this.canInsert);
-        newInventory.setCanExtract(this.canExtract);
-        newInventory.setOutputSlots(this.outputSlots);
-
-        for(int i = 0; i < this.getContainerSize(); ++i) {
-            ItemStack stack = this.getItem(i);
-            newInventory.setStackInSlot(i, stack.copy());
-        }
-
-        return newInventory;
     }
 
     public static BasicItemStackHandler create(int size) {
@@ -137,10 +84,6 @@ public class BasicItemStackHandler extends BasicForgeItemStackHandler {
         });
     }
 
-    public static BasicItemStackHandler create(int size, Runnable onContentsChanged) {
-        return create(size, onContentsChanged, (builder) -> {
-        });
-    }
 
     public static BasicItemStackHandler create(int size, Consumer<BasicItemStackHandler> builder) {
         return create(size, (Runnable)null, builder);
@@ -162,9 +105,5 @@ public class BasicItemStackHandler extends BasicForgeItemStackHandler {
 
     public boolean canTakeItemThroughFace(int slot, ItemStack stack, Direction dir) {
         return (this.canExtract == null || (Boolean)this.canExtract.apply(slot)) && (this.outputSlots == null || ArrayUtils.contains(this.outputSlots, slot));
-    }
-
-    public Runnable getOnContentsChanged() {
-        return this.onContentsChanged;
     }
 }

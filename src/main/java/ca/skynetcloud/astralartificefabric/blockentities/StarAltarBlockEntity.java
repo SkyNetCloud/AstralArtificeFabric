@@ -71,6 +71,7 @@ public class StarAltarBlockEntity extends BasicInventoryBlockEntity implements I
         this.active = true;
     }
 
+    //TODO Find replacement for Particles they lag the client
     public static void tick(Level level, BlockPos pos, BlockState state, StarAltarBlockEntity block) {
         var input = block.inventory.getItem(0);
 
@@ -93,7 +94,8 @@ public class StarAltarBlockEntity extends BasicInventoryBlockEntity implements I
                     for (int i = 0; i < pedestals.size(); i++) {
                         var pedestal = pedestals.get(i);
                         pedestal.getInventory().setItem(0, remaining.get(i + 1));
-                        block.spawnParticles(ParticleTypes.SMOKE, pedestal.getBlockPos(), 1.2D, 20);
+                        //block.spawnParticles(ParticleTypes.SMOKE, pedestal.getBlockPos(), 1.2D, 20);
+
                     }
 
                     var result = recipe.assemble(block.recipeInventory, level.registryAccess());
@@ -101,13 +103,12 @@ public class StarAltarBlockEntity extends BasicInventoryBlockEntity implements I
                     block.setOutput(result);
                     block.reset();
                     block.markDirtyAndDispatch();
-                    block.spawnParticles(ParticleTypes.HAPPY_VILLAGER, pos, 1.0D, 10);
+                    //block.spawnParticles(ParticleTypes.HAPPY_VILLAGER, pos, 1.0D, 10);
                 } else {
                     for (var pedestal : pedestals) {
                         var pedestalPos = pedestal.getBlockPos();
                         var stack = pedestal.getInventory().getItem(0);
-
-                        block.spawnItemParticles(pedestalPos, stack);
+                       //block.spawnItemParticles(pedestalPos, stack);
                     }
                 }
             } else {
@@ -141,20 +142,21 @@ public class StarAltarBlockEntity extends BasicInventoryBlockEntity implements I
 
         this.updateRecipeInventory(this.getPedestals());
 
-        //if (this.recipe == null || !this.recipe.matches(this.recipeInventory)) {
+         if (this.recipe == null || !this.recipe.matches(this.recipeInventory)) {
 
             var recipe = this.level.getRecipeManager()
                     .getRecipeFor(StarAltarRecipes.Type.INSTANCE, this.recipeInventory, this.level)
                     .orElse(null);
 
             this.recipe = recipe instanceof StarAltarRecipes ? recipe : null;
+        }
 
 
         return this.recipe;
     }
 
     private void updateRecipeInventory(List <StarPedestalBlockEntity> pedestals) {
-        this.recipeInventory.setSize(StarAltarRecipes.RECIPE_SIZE);
+        this.recipeInventory.setSize(9);
         this.recipeInventory.setItem(0, this.inventory.getItem(0));
 
         for (int i = 0; i < pedestals.size(); i++) {

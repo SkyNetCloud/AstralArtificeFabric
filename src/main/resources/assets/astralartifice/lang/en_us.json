@@ -1,7 +1,12 @@
 {
  "creativemodetab.minecraft.astralartifice": "Astral Artifice Tab",
  "item.astralartifice.star_tiller_tool": "Star Tiller Tool",
+ "item.astralartifice.starter_wand": "Starter Wand",
+ "item.astralartifice.flame_wand": "Flame Wand",
+ "item.astralartifice.ice_wand": "Ice Wand",
+ "item.astralartifice.rock_wand": "Rock Wand",
  "block.astralartifice.star_altar": "Star Altar Core",
  "block.astralartifice.star_pedestal": "Star Altar Pedestal",
+ "rei.category.astralartifice.star_altar": "Star Altar Cateogry",
  "item.astralartifice.star_gem": "Star Gem"
 }

@@ -1,0 +1,35 @@
+{
+  "type": "astralartifice:star_altar",
+  "input": {
+    "item": "astralartifice:starter_wand"
+  },
+  "ingredients": [
+    {
+      "item": "astralartifice:star_gem"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "astralartifice:star_gem"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "astralartifice:star_gem"
+    },
+    {
+      "item": "minecraft:coal"
+    },
+    {
+      "item": "astralartifice:star_gem"
+    },
+    {
+      "item": "minecraft:coal"
+    }
+  ],
+  "result": {
+    "item": "astralartifice:flame_wand"
+  }
+}

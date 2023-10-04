@@ -1,0 +1,35 @@
+{
+  "type": "astralartifice:star_altar",
+  "input": {
+    "item": "minecraft:iron_hoe"
+  },
+  "ingredients": [
+    {
+      "item": "astralartifice:star_gem"
+    },
+    {
+      "item": "astralartifice:star_gem"
+    },
+    {
+      "item": "astralartifice:star_gem"
+    },
+    {
+      "item": "astralartifice:star_gem"
+    },
+    {
+      "item": "astralartifice:star_gem"
+    },
+    {
+      "item": "astralartifice:star_gem"
+    },
+    {
+      "item": "astralartifice:star_gem"
+    },
+    {
+      "item": "astralartifice:star_gem"
+    }
+  ],
+  "result": {
+    "item": "astralartifice:star_tiller_tool"
+  }
+}

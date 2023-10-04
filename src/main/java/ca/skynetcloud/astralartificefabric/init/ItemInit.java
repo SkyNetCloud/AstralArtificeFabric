@@ -10,12 +10,13 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Tiers;
 
-
 import static ca.skynetcloud.astralartificefabric.AstralArtificeFabric.MOD_ID;
 
 public class ItemInit {
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
+
+    public static RegistrySupplier<Item> BasicWandStarter;
     public static final RegistrySupplier<Item> FLAME_WAND;
     public static final RegistrySupplier<Item>  ICE_WAND;
     public static final RegistrySupplier<Item>  ROCK_WAND;
@@ -23,6 +24,7 @@ public class ItemInit {
     public static final RegistrySupplier<Item>  STAR_GEM;
 
     static {
+        BasicWandStarter = ITEMS.register("starter_wand", () -> new BasicWand(new Item.Properties()));
         FLAME_WAND = ITEMS.register("flame_wand", () -> new BasicWand(new Item.Properties()));
         ICE_WAND = ITEMS.register("ice_wand", () -> new BasicWand(new Item.Properties()));
         ROCK_WAND = ITEMS.register("rock_wand", () -> new BasicWand(new Item.Properties()));

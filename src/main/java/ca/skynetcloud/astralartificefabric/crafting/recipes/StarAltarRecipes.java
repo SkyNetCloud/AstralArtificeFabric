@@ -10,58 +10,78 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.*;
-import net.minecraft.world.level.Level;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.ShapedRecipe;
 
-public class StarAltarRecipes implements Recipe<Container>, RecipeHandler {
+public class StarAltarRecipes implements RecipeHandler {
     public static final int RECIPE_SIZE = 9;
-    private final ItemStack result;
-    private final ResourceLocation id;
+    private final ResourceLocation recipeId;
     private final NonNullList<Ingredient> inputs;
+    private final ItemStack output;
+    private final boolean transferNBT;
 
-    public StarAltarRecipes(ResourceLocation id, ItemStack result, NonNullList<Ingredient> inputs) {
-        this.id = id;
+    public StarAltarRecipes(ResourceLocation recipeId, NonNullList<Ingredient> inputs, ItemStack output, boolean transferNBT) {
+        this.recipeId = recipeId;
         this.inputs = inputs;
-        this.result = result;
-    }
-    @Override
-    public boolean matches(Container container, Level level) {
-        if(level.isClientSide) {
-            return false;
-        }
-        return !this.inputs.isEmpty() && this.inputs.get(0).test(container.getItem(0)) && RecipeHandler.super.matches(container);
+        this.output = output;
+        this.transferNBT = transferNBT;
     }
 
     @Override
-    public ItemStack assemble(Container container, RegistryAccess registryAccess) {
+    public ItemStack assemble(Container inventory, RegistryAccess access) {
+        var stack = inventory.getItem(0);
+        var result = this.output.copy();
+
+        if (this.transferNBT) {
+            var tag = stack.getTag();
+
+            if (tag != null) {
+                result.setTag(tag.copy());
+
+                return result;
+            }
+        }
+
         return result;
     }
 
     @Override
-    public boolean canCraftInDimensions(int i, int j) {
+    public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
     @Override
-    public ItemStack getResultItem(RegistryAccess registryAccess) {
-        return result;
+    public ItemStack getResultItem(RegistryAccess access) {
+        return this.output;
+    }
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        return this.inputs;
     }
 
     @Override
     public ResourceLocation getId() {
-        return id;
+        return this.recipeId;
     }
 
     @Override
-    public RecipeSerializer<?> getSerializer() {
+    public RecipeSerializer<StarAltarRecipes> getSerializer() {
         return Serializer.Instance;
     }
 
     @Override
-    public RecipeType<?> getType() {
+    public RecipeType<? extends StarAltarRecipes> getType() {
         return Type.INSTANCE;
     }
 
+    @Override
+    public boolean matches(Container inventory) {
+        var altarStack = inventory.getItem(0);
+        return !this.inputs.isEmpty() && this.inputs.get(0).test(altarStack) && RecipeHandler.super.matches(inventory);
+    }
     public static class Type implements RecipeType<StarAltarRecipes> {
         private Type() {
         }
@@ -71,9 +91,8 @@ public class StarAltarRecipes implements Recipe<Container>, RecipeHandler {
     public static class Serializer implements RecipeSerializer<StarAltarRecipes> {
         public static final Serializer Instance = new Serializer();
         public static final String ID = "star_altar";
-
         @Override
-        public StarAltarRecipes fromJson(ResourceLocation id, JsonObject json) {
+        public StarAltarRecipes fromJson(ResourceLocation recipeId, JsonObject json) {
             var inputs = NonNullList.withSize(RECIPE_SIZE, Ingredient.EMPTY);
             var input = GsonHelper.getAsJsonObject(json, "input");
 
@@ -86,11 +105,13 @@ public class StarAltarRecipes implements Recipe<Container>, RecipeHandler {
             }
 
             var result = ShapedRecipe.itemStackFromJson(json.getAsJsonObject("result"));
-            return new StarAltarRecipes(id, result, inputs);
+            var transferNBT = GsonHelper.getAsBoolean(json, "transfer_nbt", false);
+
+            return new StarAltarRecipes(recipeId, inputs, result, transferNBT);
         }
 
         @Override
-        public StarAltarRecipes fromNetwork(ResourceLocation id, FriendlyByteBuf buffer) {
+        public StarAltarRecipes fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
             int size = buffer.readVarInt();
             var inputs = NonNullList.withSize(size, Ingredient.EMPTY);
 
@@ -98,9 +119,10 @@ public class StarAltarRecipes implements Recipe<Container>, RecipeHandler {
                 inputs.set(i, Ingredient.fromNetwork(buffer));
             }
 
-            var result = buffer.readItem();
-            return new StarAltarRecipes(id,result,inputs);
+            var output = buffer.readItem();
+            var transferNBT = buffer.readBoolean();
 
+            return new StarAltarRecipes(recipeId, inputs, output, transferNBT);
         }
 
         @Override
@@ -111,7 +133,8 @@ public class StarAltarRecipes implements Recipe<Container>, RecipeHandler {
                 ingredient.toNetwork(buffer);
             }
 
-            buffer.writeItem(recipe.result);
+            buffer.writeItem(recipe.output);
+            buffer.writeBoolean(recipe.transferNBT);
         }
     }
 }

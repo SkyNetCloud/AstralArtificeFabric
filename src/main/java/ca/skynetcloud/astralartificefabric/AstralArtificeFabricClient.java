@@ -13,7 +13,6 @@ public class AstralArtificeFabricClient implements ClientModInitializer {
     public void onInitializeClient() {
 
 
-
         BlockEntityRenderers.register(BlockEntitiesInit.STAR_PEDESTAL, StarPedestalRenderer::new);
         BlockEntityRenderers.register(BlockEntitiesInit.STAR_ALTAR, StarAltarRenderer::new);
 

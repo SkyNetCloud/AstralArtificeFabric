@@ -1,6 +1,8 @@
 package ca.skynetcloud.astralartificefabric;
 
+import ca.skynetcloud.astralartificefabric.config.ModConfigs;
 import ca.skynetcloud.astralartificefabric.init.*;
+import fuzs.forgeconfigapiport.api.config.v2.ForgeConfigRegistry;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.core.Registry;
@@ -8,6 +10,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.fml.config.ModConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,11 +28,13 @@ public class AstralArtificeFabric implements ModInitializer {
     public void onInitialize() {
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CreativeModeTabsInit.CREATIVE_MODE_TAB, CREATIVE_MODE_TAB);
 
+        ForgeConfigRegistry.INSTANCE.register(MOD_ID, ModConfig.Type.COMMON, ModConfigs.CONFIG, "astralartifice-common.toml");
+
+
         BlocksInit.registerBlocks();
         ItemInit.registerItems();
         BlockEntitiesInit.registerBlockEntities();
         RecipeInit.registerRecipes();
-
 
     }
 }
